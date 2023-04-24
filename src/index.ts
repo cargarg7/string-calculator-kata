@@ -1,5 +1,4 @@
-import { RADIX, JUST_NUMBERS_REGEX } from './numbers/enums';
-import { VALUES_BY_SEPARATOR } from './numbers';
+import { VALUES_BY_SEPARATOR, sanitizeValue } from './numbers';
 import { isCustomSeparator } from './separators';
 
 export function stringCalculator(stringOfValues?: string): number {
@@ -8,8 +7,5 @@ export function stringCalculator(stringOfValues?: string): number {
 	const getValuesFn = isCustomSeparator(stringOfValues)
 		? VALUES_BY_SEPARATOR.CUSTOM_SEPARATOR
 		: VALUES_BY_SEPARATOR.DEFAULT_SEPARATOR;
-	return getValuesFn(stringOfValues).reduce(
-		(acc: number, value: string) => (acc += JUST_NUMBERS_REGEX.test(value) ? 0 : Number.parseInt(value, RADIX)),
-		0
-	);
+	return getValuesFn(stringOfValues).reduce((acc: number, value: string) => (acc += sanitizeValue(value)), 0);
 }
