@@ -4,8 +4,10 @@ import { BEGIN_SPLIT_SEPARATOR, SPLIT_SEPARATOR, DEFAULT_SEPARATOR } from '../se
 export const VALUES_BY_SEPARATOR = {
 	DEFAULT_SEPARATOR: (stringOfValues: string): string[] => stringOfValues.split(DEFAULT_SEPARATOR),
 	CUSTOM_SEPARATOR: (stringOfValues: string): string[] => {
-		const separator = stringOfValues.slice(BEGIN_SPLIT_SEPARATOR.length, stringOfValues.lastIndexOf(SPLIT_SEPARATOR));
-		return stringOfValues.slice(stringOfValues.lastIndexOf(SPLIT_SEPARATOR) + 1).split(separator);
+		const from = BEGIN_SPLIT_SEPARATOR.length;
+		const until = stringOfValues.lastIndexOf(SPLIT_SEPARATOR);
+		const separator = stringOfValues.slice(from, until);
+		return stringOfValues.slice(until + 1).split(separator);
 	},
 } as const;
 
